@@ -1,12 +1,9 @@
-function [L, gamma_hat, mu, log_likelihood] = glmm_matlab(y, iterations, classes, spread, regul, norm_par)
+function [L, gamma_hat, mu, log_lielihood] = glmm_matlab(y, iterations, classes, delta)
 
-if (nargin == 3)
-    spread = 0.1;
-    regul = 0.15;
-    norm_par = 1.5;%0.3;%1.2;
-end
 
-delta = 2;
+spread = 0.1;
+regul = 0.15;
+
 n = size(y,2);
 m = size(y,1); 
 %% initialise
@@ -50,7 +47,7 @@ for it = 1:iterations
         mu(:,class) = (gamma_hat(:,class)'*y)/sum(gamma_hat(:,class));
         yc = repmat(sqrt(gamma_hat(:,class)),[1,n]) .* (y - mu(:,class)'); 
         Z = gsp_distanz(yc).^2;
-        theta = mean(Z(:))/norm_par;
+        theta = gsp_compute_graph_learning_theta(Z, class);
         W_curr = delta*gsp_learn_graph_log_degrees(Z ./ theta, 1, 1);
         W(:,:,class) = W_curr;
         p(class) = sum(gamma_hat(:,class))/m;
