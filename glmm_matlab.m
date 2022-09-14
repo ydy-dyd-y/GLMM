@@ -1,4 +1,4 @@
-function [L, gamma_hat, mu, log_lielihood] = glmm_matlab(y, iterations, classes, delta)
+function [L, gamma_hat, mu, log_likelihood] = glmm_matlab(y, iterations, classes, delta)
 
 
 spread = 0.1;
