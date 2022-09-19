@@ -44,8 +44,8 @@ for it = 1:iterations
 
     %Maximisation step: update mu, W and p
     for class = 1:classes
-        mu(:,class) = (gamma_hat(:,class)'*y)/sum(gamma_hat(:,class));
-        yc = repmat(sqrt(gamma_hat(:,class)),[1,n]) .* (y - mu(:,class)'); 
+        mu(:,class) = (gamma_hat(:,class)'*y)/sum(gamma_hat(:,class)); % [(1 x tp) * (tp x roi)] / (1) = (1 x roi)
+        yc = repmat(sqrt(gamma_hat(:,class)),[1,n]) .* (y - mu(:,class)');  % (tp x 1*roi) .* (tp x roi) = (tp x roi)
         Z = gsp_distanz(yc).^2;
         theta = gsp_compute_graph_learning_theta(Z, class);
         W_curr = delta*gsp_learn_graph_log_degrees(Z ./ theta, 1, 1);
