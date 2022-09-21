@@ -48,7 +48,7 @@ for it = 1:iterations
         yc = repmat(sqrt(gamma_hat(:,class)),[1,n]) .* (y - mu(:,class)');  % (tp x 1*roi) .* (tp x roi) = (tp x roi)
         Z = gsp_distanz(yc).^2;
         theta = gsp_compute_graph_learning_theta(Z, class);
-        W_curr = delta*gsp_learn_graph_log_degrees(Z ./ theta, 1, 1);
+        W_curr = delta*gsp_learn_graph_log_degrees(Z .* theta, 1, 1);
         W(:,:,class) = W_curr;
         p(class) = sum(gamma_hat(:,class))/m;
         %compute Ls
